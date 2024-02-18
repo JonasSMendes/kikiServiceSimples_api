@@ -1,5 +1,4 @@
-package com.example.servicoEntregaKiki;
-
+package com.example.servicoEntregaKiki.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +20,9 @@ public class Data {
         dataSource.setPassword("1234");
         return dataSource;
     }
+
     @Bean
-    public JpaVendorAdapter jpaVendorAdapter(){
+    public JpaVendorAdapter jpaVendorAdapter() {
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         adapter.setDatabase(Database.MYSQL);
         adapter.setShowSql(true);
