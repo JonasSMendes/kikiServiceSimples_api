@@ -17,7 +17,7 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private OrderRepository orderDtoRepository;
+    private OrderRepository orderRepository;
 
     public User findByMyId(Long id) {
 
@@ -31,7 +31,7 @@ public class UserService {
     public User newUser(User obj) {
         obj.setId(null);
         obj = this.userRepository.save(obj);
-        this.orderDtoRepository.saveAll(obj.getOrders());
+        this.orderRepository.saveAll(obj.getOrders());
 
         return obj;
     }

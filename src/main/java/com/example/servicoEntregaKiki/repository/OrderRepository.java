@@ -9,9 +9,7 @@ import com.example.servicoEntregaKiki.model.Order;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    Order findByOrderDTOId(Long id);
-
-    List<Order> findbyUser_Id(Long id);
+    List<Order> findByUser_Id(Long userId);
 
     // @Query(value = "SELECT * FROM orders o WHERE o.user_id = :id", nativeQuery =
     // true)
