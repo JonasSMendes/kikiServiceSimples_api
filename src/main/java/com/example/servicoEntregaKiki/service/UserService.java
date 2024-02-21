@@ -16,10 +16,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private OrderRepository orderRepository;
-
-    public User findByMyId(Long id) {
+    public User findByUserId(Long id) {
 
         Optional<User> user = this.userRepository.findById(id);
 
@@ -31,7 +28,6 @@ public class UserService {
     public User newUser(User obj) {
         obj.setId(null);
         obj = this.userRepository.save(obj);
-        this.orderRepository.saveAll(obj.getOrders());
 
         return obj;
     }
@@ -39,14 +35,14 @@ public class UserService {
     @Transactional
     public User updateUser(User obj) {
 
-        User newObj = findByMyId(obj.getId());
+        User newObj = findByUserId(obj.getId());
         newObj.setPassword(obj.getPassword());
 
         return this.userRepository.save(newObj);
     }
 
     public void delete(long id) {
-        findByMyId(id);
+        findByUserId(id);
         try {
             this.userRepository.deleteById(id);
         } catch (Exception e) {
