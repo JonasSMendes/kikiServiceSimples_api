@@ -11,4 +11,6 @@ import com.example.servicoEntregaKiki.model.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findById(Long id);
+
+    Optional<User> findByusername(String username);
 }

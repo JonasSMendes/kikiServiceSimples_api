@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.servicoEntregaKiki.model.User;
-import com.example.servicoEntregaKiki.repository.OrderRepository;
 import com.example.servicoEntregaKiki.repository.UserRepository;
 
 @Service
@@ -26,10 +25,15 @@ public class UserService {
 
     @Transactional
     public User newUser(User obj) {
-        obj.setId(null);
-        obj = this.userRepository.save(obj);
 
-        return obj;
+        Optional<User> existingUser = userRepository.findByusername(obj.getUsername());
+
+        if (existingUser.isPresent()) {
+            throw new RuntimeException("já existe o usuario");
+        }
+
+        obj.setId(null);
+        return this.userRepository.save(obj);
     }
 
     @Transactional
