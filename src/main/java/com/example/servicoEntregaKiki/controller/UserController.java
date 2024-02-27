@@ -1,8 +1,11 @@
 package com.example.servicoEntregaKiki.controller;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,48 +14,58 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.servicoEntregaKiki.model.User;
+import com.example.servicoEntregaKiki.model.User.CreateUSer;
 import com.example.servicoEntregaKiki.service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
-@RequestMapping("user")
+@RequestMapping("/User")
+@Validated
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("/newUser")
-    public ResponseEntity<String> postUser(@RequestBody User obj) {
+    @Validated(CreateUSer.class)
+    @PostMapping
+    public ResponseEntity<Void> postUser(@Valid @RequestBody User obj) {
 
         try {
-            var result = userService.newUser(obj);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body("Usuario " + result.getUsername() + " criado com sucesso");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Nome do usuario já existe s2");
-        }
+            userService.newUser(obj);
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}").buildAndExpand(obj.getId()).toUri();
 
+            return ResponseEntity.created(uri).build();
+
+        } catch (RuntimeException e) {
+
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable("id") Long id) {
+    public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
 
         var result = this.userService.findByUserId(id);
 
-        return result;
+        return ResponseEntity.ok(result);
     }
 
-    @PutMapping("/update")
-    public User putUserPassword(@RequestBody User obj) {
+    @PutMapping
+    @Validated
+    public ResponseEntity<Void> update(@Valid @RequestBody User obj, @PathVariable Long id) {
 
-        var result = userService.updateUser(obj);
+        obj.setId(id);
+        this.userService.updateUser(obj);
 
-        return result;
+        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") Long id) {
         userService.delete(id);
     }
