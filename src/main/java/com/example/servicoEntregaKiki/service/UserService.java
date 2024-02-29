@@ -1,11 +1,13 @@
 package com.example.servicoEntregaKiki.service;
 
 import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.servicoEntregaKiki.model.Order;
 import com.example.servicoEntregaKiki.model.User;
 import com.example.servicoEntregaKiki.repository.UserRepository;
 
@@ -34,6 +36,10 @@ public class UserService {
 
         obj.setId(null);
         return this.userRepository.save(obj);
+    }
+
+    public List<User> allUser() {
+        return this.userRepository.findAll();
     }
 
     @Transactional

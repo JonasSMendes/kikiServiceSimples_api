@@ -1,6 +1,7 @@
 package com.example.servicoEntregaKiki.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ import com.example.servicoEntregaKiki.service.UserService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/User")
+@RequestMapping("/user")
 @Validated
 public class UserController {
 
@@ -50,6 +51,14 @@ public class UserController {
     public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
 
         var result = this.userService.findByUserId(id);
+
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("all")
+    public ResponseEntity<List<User>> getAllUser() {
+
+        var result = this.userService.allUser();
 
         return ResponseEntity.ok(result);
     }
