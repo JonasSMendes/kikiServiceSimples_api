@@ -3,7 +3,6 @@ package com.example.servicoEntregaKiki.controller;
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -55,7 +54,7 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @Validated
     public ResponseEntity<Void> update(@Valid @RequestBody User obj, @PathVariable Long id) {
 

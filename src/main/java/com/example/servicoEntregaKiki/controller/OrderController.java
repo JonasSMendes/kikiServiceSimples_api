@@ -1,6 +1,7 @@
 package com.example.servicoEntregaKiki.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.servicoEntregaKiki.model.Order;
 import com.example.servicoEntregaKiki.service.OrderService;
+import com.example.servicoEntregaKiki.service.UserService;
 
 import jakarta.validation.Valid;
 
@@ -28,17 +30,29 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<Order> getOrder(@PathVariable("id") Long id) {
+    @Autowired
+    private UserService userService;
 
-        var result = this.orderService.findOrderById(id);
+    @GetMapping("{id}")
+    public ResponseEntity<Order> getOrder(@PathVariable Long id) {
 
-        return ResponseEntity.ok(result);
+        Order obj = this.orderService.findOrderById(id);
+
+        return ResponseEntity.ok(obj);
     }
 
-    @PostMapping("/post")
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Order>> listOrderById(@PathVariable Long userId) {
+        userService.findByUserId(userId);
+
+        List<Order> obj = this.orderService.findAllByUserId(userId);
+
+        return ResponseEntity.ok().body(obj);
+    }
+
+    @PostMapping()
     @Validated
-    public ResponseEntity<Order> postOrder(@Valid @RequestBody Order obj) {
+    public ResponseEntity<Void> postOrder(@Valid @RequestBody Order obj) {
 
         orderService.newOrder(obj);
 
@@ -48,7 +62,7 @@ public class OrderController {
         return ResponseEntity.created(uri).build();
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     @Validated
     public ResponseEntity<Void> update(@Valid @RequestBody Order obj, @PathVariable Long id) {
 
@@ -58,10 +72,11 @@ public class OrderController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id) {
         orderService.delete(id);
 
         ResponseEntity.noContent().build();
     }
+
 }

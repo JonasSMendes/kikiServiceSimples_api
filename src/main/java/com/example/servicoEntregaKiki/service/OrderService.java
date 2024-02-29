@@ -1,6 +1,7 @@
 package com.example.servicoEntregaKiki.service;
 
 import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,18 +22,35 @@ public class OrderService {
 
     public Order findOrderById(Long id) {
 
+        @SuppressWarnings("null")
         Optional<Order> order = orderRepository.findById(id);
 
         return order.orElseThrow(() -> new RuntimeException(
                 "Pedido com ID: " + id + " não encontrado " + " Tipo: " + Order.class.getName()));
     }
 
+    public List<Order> findAllByUserId(Long userId) {
+
+        List<Order> order = this.orderRepository.findByUser_Id(userId);
+
+        return order;
+    }
+
     @Transactional
     public Order newOrder(Order obj) {
-        User user = this.userService.findByUserId(obj.getUser_id().getId());
+
+        if (obj.getUser() == null) {
+            throw new IllegalArgumentException("Order does not have a user associated with it.");
+        }
+
+        User user = this.userService.findByUserId(obj.getUser().getId());
         obj.setId(null);
-        obj.setUser_id(user);
+        obj.setUser(user);
         obj = this.orderRepository.save(obj);
+
+        if (user == null) {
+            throw new RuntimeException("User not found for the provided user ID.");
+        }
 
         return obj;
     }

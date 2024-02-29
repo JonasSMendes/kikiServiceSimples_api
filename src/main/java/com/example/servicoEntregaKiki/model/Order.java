@@ -1,5 +1,8 @@
 package com.example.servicoEntregaKiki.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,13 +26,13 @@ public class Order {
     @Column(name = "id", unique = true)
     private Long id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;
 
     @Column(name = "service", length = 255, nullable = false)
     @NotNull
-    @NotEmpty
     @Size(min = 1, max = 255)
     private String service;
 
@@ -50,12 +53,12 @@ public class Order {
         this.id = id;
     }
 
-    public User getUser_id() {
+    public User getUser() {
         return this.user;
     }
 
-    public void setUser_id(User user_id) {
-        this.user = user_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getService() {
@@ -72,7 +75,7 @@ public class Order {
     }
 
     public Order user_id(User user_id) {
-        setUser_id(user_id);
+        setUser(user_id);
         return this;
     }
 
@@ -92,8 +95,4 @@ public class Order {
         return result;
     }
 
-    public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isEmpty'");
-    }
 }
