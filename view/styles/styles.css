@@ -1,0 +1,76 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {}
+
+main {
+
+    display: flex;
+    flex-direction: column;
+}
+
+section {
+    background-image: url("https://wallpaperaccess.com/full/496069.jpg");
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+    height: 300px;
+    margin-bottom: 10px;
+}
+
+.user-service {
+
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+
+    backdrop-filter: blur(13.5px);
+    -webkit-backdrop-filter: blur(10.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    height: 300px;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.user-loading {
+    font-size: 22px;
+    font-weight: bolder;
+}
+
+.user-service h1 {
+    color: white;
+    font-size: 42px;
+}
+
+/* Estilo da tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+/* Estilo das células da tabela */
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Estilo das células do cabeçalho da tabela */
+th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+/* Estilo de hover nas linhas da tabela */
+tr:hover {
+    background-color: #333;
+}
