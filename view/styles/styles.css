@@ -4,73 +4,195 @@
     box-sizing: border-box;
 }
 
-body {}
+
+
+body {
+    background-color: #864AF9;
+}
 
 main {
-
     display: flex;
-    flex-direction: column;
-}
-
-section {
-    background-image: url("https://wallpaperaccess.com/full/496069.jpg");
-    background-repeat: no-repeat;
-    background-position: top;
-    background-size: cover;
-    height: 300px;
-    margin-bottom: 10px;
-}
-
-.user-service {
-
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-
-    backdrop-filter: blur(13.5px);
-    -webkit-backdrop-filter: blur(10.5px);
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.11);
-    height: 300px;
     width: 100%;
+}
 
+.navegation-section {
+    width: 7%;
+    background-color: #332941;
+    height: 100vh;
+    transition: 500ms all ease;
+    padding: 10px;
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 30px;
+    box-sizing: border-box;
+}
 
+
+
+.user-info {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: 500ms all ease;
+    border-top-left-radius: 35%;
+    border-bottom-left-radius: 35%;
+    cursor: pointer;
+}
+
+.user {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.user img {
+    width: 60px;
+    border-radius: 100%;
+}
+
+.user-name {
+    color: aliceblue;
+    text-transform: uppercase;
+    font-size: 9px;
+    position: absolute;
+    left: 100px;
+    background-color: #332941;
+    padding: 6px;
+    display: none;
 }
 
 .user-loading {
-    font-size: 22px;
-    font-weight: bolder;
-}
-
-.user-service h1 {
-    color: white;
-    font-size: 42px;
-}
-
-/* Estilo da tabela */
-table {
     width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: none;
 }
 
-/* Estilo das células da tabela */
-th,
-td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+.user-loading span {
+    font-size: 40px;
+    color: aliceblue;
 }
 
-/* Estilo das células do cabeçalho da tabela */
-th {
-    background-color: #f2f2f2;
-    color: #333;
+.post-section {
+    width: 70%;
+    background-color: #864AF9;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
 }
 
-/* Estilo de hover nas linhas da tabela */
-tr:hover {
-    background-color: #333;
+.post-section h1 {
+    font-size: 63px;
+}
+
+.form-post-section {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-post-section input {
+    width: 77%;
+    padding: 20px;
+}
+
+
+.service-section {
+    width: 25%;
+    height: 100vh;
+    background-color: #3B3486;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+
+}
+
+.off-service img {
+    width: 350px;
+}
+
+.off-service {
+    display: none;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+
+
+}
+
+.off-service h3 {
+    font-size: 30px;
+}
+
+.list-all-section {
+    height: 100%;
+}
+
+.list-section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.list-all-section h3 {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.todo {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #332941;
+    border-radius: 5px;
+    padding: 10px 12px;
+    border: 2px solid #864AF9;
+    width: 100%;
+    justify-content: center;
+    color: aliceblue;
+
+}
+
+.todo:first-child {
+    margin-top: 0;
+}
+
+.todo:last-child {
+    margin-bottom: 0;
+}
+
+.todo:hover {
+    background-color: #3B3486;
+}
+
+.todo label {
+    cursor: pointer;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
 }
