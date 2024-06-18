@@ -1,4 +1,4 @@
-package com.example.servicoEntregaKiki.config;
+package com.example.servicoEntregaKiki.infra.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

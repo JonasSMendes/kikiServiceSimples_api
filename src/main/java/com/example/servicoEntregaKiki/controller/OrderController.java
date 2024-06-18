@@ -1,8 +1,10 @@
 package com.example.servicoEntregaKiki.controller;
 
-import java.net.URI;
 import java.util.List;
 
+import com.example.servicoEntregaKiki.dto.DataDetailsOrderDTO;
+import com.example.servicoEntregaKiki.dto.OrderDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -10,15 +12,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.servicoEntregaKiki.model.Order;
-import com.example.servicoEntregaKiki.service.OrderService;
-import com.example.servicoEntregaKiki.service.UserService;
+import com.example.servicoEntregaKiki.domain.Order;
+import com.example.servicoEntregaKiki.domain.service.OrderService;
+import com.example.servicoEntregaKiki.domain.service.UserService;
 
 import jakarta.validation.Valid;
 
@@ -33,12 +33,18 @@ public class OrderController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("{id}")
-    public ResponseEntity<Order> getOrder(@PathVariable Long id) {
+    @PostMapping()
+    @Validated
+    @Transactional
+    public ResponseEntity postOrder(@Valid @RequestBody OrderDTO obj) {
+        var result = orderService.newOrder(obj);
+        return ResponseEntity.ok(result);
+    }
 
-        Order obj = this.orderService.findOrderById(id);
-
-        return ResponseEntity.ok(obj);
+    @GetMapping("/{id}")
+    public ResponseEntity<List<DataDetailsOrderDTO>> getOrder(@PathVariable Long id) {
+        var result = orderService.findOrderById(id);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/user/{userId}")
@@ -50,27 +56,17 @@ public class OrderController {
         return ResponseEntity.ok().body(obj);
     }
 
-    @PostMapping()
-    @Validated
-    public ResponseEntity<Void> postOrder(@Valid @RequestBody Order obj) {
 
-        orderService.newOrder(obj);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(obj.getId()).toUri();
-
-        return ResponseEntity.created(uri).build();
-    }
-
-    @PutMapping("/{id}")
-    @Validated
-    public ResponseEntity<Void> update(@Valid @RequestBody Order obj, @PathVariable Long id) {
-
-        obj.setId(id);
-        this.orderService.updateOrder(obj);
-
-        return ResponseEntity.noContent().build();
-    }
+//    @PutMapping("/{id}")
+//    @Validated
+//    public ResponseEntity<Void> update(@Valid @RequestBody Order obj, @PathVariable Long id) {
+//
+//        obj.setId(id);
+//        this.orderService.updateOrder(obj);
+//
+//        return ResponseEntity.noContent().build();
+//    }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id) {
