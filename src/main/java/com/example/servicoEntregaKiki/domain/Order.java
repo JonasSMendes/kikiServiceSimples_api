@@ -1,5 +1,6 @@
 package com.example.servicoEntregaKiki.domain;
 
+import com.example.servicoEntregaKiki.dto.DataAttOrdersDTO;
 import com.example.servicoEntregaKiki.dto.OrderDTO;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -44,5 +45,10 @@ public class Order {
     public Order(User user, String service) {
         this.user = user;
         this.service = service;
+    }
+
+
+    public Order(DataAttOrdersDTO dados) {
+        this.service = dados.service();
     }
 }

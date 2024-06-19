@@ -2,19 +2,17 @@ package com.example.servicoEntregaKiki.controller;
 
 import java.util.List;
 
+import com.example.servicoEntregaKiki.dto.DataAttOrdersDTO;
 import com.example.servicoEntregaKiki.dto.DataDetailsOrderDTO;
 import com.example.servicoEntregaKiki.dto.OrderDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.servicoEntregaKiki.domain.Order;
 import com.example.servicoEntregaKiki.domain.service.OrderService;
@@ -41,37 +39,31 @@ public class OrderController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<DataDetailsOrderDTO>> getOrder(@PathVariable Long id) {
-        var result = orderService.findOrderById(id);
+    @GetMapping("user/{id}")
+    public ResponseEntity<Page<DataDetailsOrderDTO>> getOrder(@PathVariable Long id, Pageable pageable) {
+        var result = orderService.findOrderById(id, pageable);
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Order>> listOrderById(@PathVariable Long userId) {
-        userService.findByUserId(userId);
-
-        List<Order> obj = this.orderService.findAllByUserId(userId);
-
-        return ResponseEntity.ok().body(obj);
+    @GetMapping
+    public ResponseEntity<Page<DataDetailsOrderDTO>> listOrders (@PageableDefault(size = 10) Pageable pageable) {
+        var result = orderService.allOrders(pageable);
+        return ResponseEntity.ok(result);
     }
 
 
-
-//    @PutMapping("/{id}")
-//    @Validated
-//    public ResponseEntity<Void> update(@Valid @RequestBody Order obj, @PathVariable Long id) {
-//
-//        obj.setId(id);
-//        this.orderService.updateOrder(obj);
-//
-//        return ResponseEntity.noContent().build();
-//    }
+    @PutMapping
+    @Validated
+    @Transactional
+    public ResponseEntity<DataDetailsOrderDTO> update(@Valid @RequestBody DataAttOrdersDTO dados) {
+         var result = orderService.updateOrder(dados);
+         return ResponseEntity.ok(result);
+    }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public void delete(@PathVariable("id") Long id) {
         orderService.delete(id);
-
         ResponseEntity.noContent().build();
     }
 
